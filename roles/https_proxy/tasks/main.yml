@@ -1,0 +1,23 @@
+---
+- name: Generate private key
+  openssl_privatekey:
+    path: "{{ https_proxy_etc_ssl_private[ansible_os_family] }}https_proxy.pem"
+
+- name: Generate CSR
+  openssl_csr:
+    path: "{{ https_proxy_etc_ssl_private[ansible_os_family] }}{{ https_proxy_roles[item].hostname }}.csr"
+    privatekey_path: "{{ https_proxy_etc_ssl_private[ansible_os_family] }}https_proxy.pem"
+    common_name: "{{ https_proxy_roles[item].hostname }}"
+  with_items: "{{ https_proxy_roles }}"
+
+- name: Generate certificate.
+  openssl_certificate:
+    path: "{{ https_proxy_etc_ssl_certs[ansible_os_family] }}{{ https_proxy_roles[item].hostname }}.pem"
+    privatekey_path: "{{ https_proxy_etc_ssl_private[ansible_os_family] }}https_proxy.pem"
+    csr_path: "{{ https_proxy_etc_ssl_private[ansible_os_family] }}{{ https_proxy_roles[item].hostname }}.csr"
+    provider: selfsigned
+    subject_alt_name: "{{ https_proxy_roles[item].hostname }}"
+  with_items: "{{ https_proxy_roles }}"
+
+- include: "{{ ansible_os_family }}.yml"
+
