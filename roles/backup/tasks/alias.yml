@@ -1,6 +1,0 @@
----
-- name: Backup aliases
-  template:
-   dest: /etc/profile.d/backup.sh
-   mode: 0755
-   src: alias.sh.j2
