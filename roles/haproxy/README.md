@@ -1,8 +1,14 @@
 # Ansible Role: HAProxy
 
-Installs HAProxy on RedHat/CentOS 7 Linux servers.
+Installs HAProxy on RedHat/CentOS 7 and Debian servers.
 
-**Note**: This role installs HAProxy _from source_ so you can install any version you want and you are not limited to the old and obsolete versions that are available for CentOS 6 and 7.
+**Note**: Currently it is assumed that for RedHat based systems install HAProxy _from source_ because no-up-date haproxy packages exists for CentOS 7. This way you can install any version you like. Ubuntu does have off a supported `haproxy` package so Debian based system use package install. Of course these defaults can be changed
+
+```yaml
+haproxy_install_type:
+  RedHat: source
+  Debian: package
+```
 
 ## Requirements
 

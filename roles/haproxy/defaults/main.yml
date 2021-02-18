@@ -1,7 +1,10 @@
 ---
 haproxy_version: 2.3.2
 # haproxy_conf: /etc/haproxy/haproxy.cfg
-haproxy_conf: /etc/haproxy.cfg
+haproxy_conf:
+  source: /etc/haproxy.cfg
+  package: /etc/haproxy/haproxy.cfg
+
 haproxy_make_dir: /tmp/haproxy
 
 haproxy_socket: /var/lib/haproxy/stats
@@ -12,12 +15,34 @@ haproxy_group: haproxy
 # Extra global vars (see README for example usage).
 haproxy_global_vars: []
 
-haproxy_bin: /usr/local/sbin/haproxy
+# HAProxy binary per ansible_os_family
+haproxy_bin:
+  source: /usr/local/sbin/haproxy
+  package: /usr/sbin/haproxy
 
+haproxy_package: haproxy
+
+# Install type package or source per ansible_os_family
+haproxy_install_type:
+  RedHat: source
+  Debian: package
+
+# Packages to install per ansible_os_family
+# for source install
 haproxy_packages:
-  - openssl-devel
-  - systemd-devel
-  - "@Development Tools"
+  RedHat:
+    - openssl-devel
+    - systemd-devel
+    - "@Development Tools"
+  Debian:
+    - build-essential
+    - libssl-dev
+    - libpcre3-dev
+    - zlib1g
+    - zlib1g-dev
+    - libsystemd-dev
+
+# Depends: libc6 (>= 2.15), liblua5.3-0, libpcre3, libssl1.1 (>= 1.1.1), libsystemd0, zlib1g (>= 1:1.1.4), adduser, lsb-base (>= 3.0-6)
 
 haproxy_versions:
   2.3.2:

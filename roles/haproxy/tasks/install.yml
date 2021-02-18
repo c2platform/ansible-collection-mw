@@ -1,7 +1,7 @@
 ---
 - name: Required packages
   package:
-    name: "{{ haproxy_packages }}"
+    name: "{{ haproxy_packages[ansible_os_family] }}"
 
 - name: Make dir
   file:

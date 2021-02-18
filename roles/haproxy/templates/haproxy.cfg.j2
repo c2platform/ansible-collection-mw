@@ -40,7 +40,7 @@ defaults
 
 {% for f in haproxy_frontends %}
 
-frontend {{ f }} 
+frontend {{ f }}
 {%   for o in haproxy_frontends[f] %}
   {{ o }} {{ haproxy_frontends[f][o] }}
 {%   endfor %}
@@ -48,7 +48,7 @@ frontend {{ f }}
 
 {% for f in haproxy_backends %}
 
-backend {{ f }} 
+backend {{ f }}
 {%   for o in haproxy_backends[f] %}
   {{ o }} {{ haproxy_backends[f][o] }}
 {%   endfor %}

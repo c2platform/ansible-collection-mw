@@ -4,9 +4,9 @@ After=network.target
 
 [Service]
 Environment="CONFIG={{ haproxy_conf }}" "PIDFILE=/var/run/haproxy.pid"
-ExecStartPre={{ haproxy_bin }} -f {{ haproxy_conf }} -c -q
-ExecStart={{ haproxy_bin }} -Ws -f {{ haproxy_conf }} -p /var/run/haproxy.pid
-ExecReload={{ haproxy_bin }} -f {{ haproxy_conf }} -c -q
+ExecStartPre={{ haproxy_bin[ansible_os_family] }} -f {{ haproxy_conf }} -c -q
+ExecStart={{ haproxy_bin[ansible_os_family] }} -Ws -f {{ haproxy_conf }} -p /var/run/haproxy.pid
+ExecReload={{ haproxy_bin[ansible_os_family] }} -f {{ haproxy_conf }} -c -q
 ExecReload=/bin/kill -USR2 $MAINPID
 KillMode=mixed
 Restart=always
