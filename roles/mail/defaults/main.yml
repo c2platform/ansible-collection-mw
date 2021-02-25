@@ -1,0 +1,12 @@
+---
+install_packages: []
+
+instance: "postfix-in"
+instance_group: "suwi"
+port: "10028"
+
+postfix_myhostname: 
+postfix_mailname: 
+
+postfix_inet_interfaces: '1.1.1.58'
+postfix_inet_protocols: ipv4
