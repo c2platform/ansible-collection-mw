@@ -1,15 +1,16 @@
 ---
   - name: install package and Required Extensions
     apt:
-      name: "{{ install_packages }}"
+      name: "{{ mail_install_packages }}"
       state: "{{ apt_install_state | default('latest') }}"
       update_cache: true
       cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
   - name: "Forward to platform-beheer"
     lineinfile:
       path: /etc/aliases
-      state: present
-      line: "root:          sharafipr@gmail.com"
+      state: present # absent when not mail_aliases|default(False)
+      line: "{{ mail_aliases }}"
+    #when: mail_aliases|default(False)
     notify:
       - refresh aliases
   - name: configure postfix (main.cf)

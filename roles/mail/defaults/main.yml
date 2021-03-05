@@ -1,6 +1,8 @@
 ---
-install_packages:
+mail_install_packages:
 - mailutils
 
 postfix_mynetworks: "127.0.0.0/8"
 postfix_inet_protocols: "ipv4"
+
+# mail_aliases: 'root:          mail@example.com'
