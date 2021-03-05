@@ -1,4 +1,9 @@
 ---
+- name: Verkeerde tomcat versie 9
+  fail:
+    msg: "Versie zou 9 moeten zijn zoals amtbu01. AWX sync werkt echter zeer onbetrouwbaar. WIP. "
+  when: tomcat_version != 9
+
 - name: Deploy Tomcat apps
   include: apps.yml
   loop: "{{ tomcat_apps }}"
