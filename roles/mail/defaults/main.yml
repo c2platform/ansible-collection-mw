@@ -5,6 +5,6 @@ mail_install_packages:
 postfix_mynetworks: "127.0.0.0/8"
 postfix_inet_protocols: "ipv4"
 
-postfix_aliases:
-  - name: root
-    destination: mail@example.com
+postfix_aliases: []
+#  - name: root
+#    destination: mail@example.com
