@@ -1,6 +1,6 @@
 # Ansible Role ForgeRock Directory Servcies (DS)
 
-A brief description of the role goes here.
+This role is used to configure postfix mail aliases for example for root.
 
 <!-- MarkdownTOC levels="2,3" autolink="true" -->
 
@@ -19,6 +19,14 @@ Any pre-requisites that may not be covered by Ansible itself or the role should 
 
 A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
+```yaml
+postfix_aliases:
+  - name: postmaster
+    destination: root
+  - name: root
+    destination: mymail@somemaildomain.com
+
+```
 
 ```yaml
 mail_aliases: 'root:          mail@example.com'
