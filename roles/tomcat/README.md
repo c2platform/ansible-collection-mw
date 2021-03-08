@@ -1,6 +1,6 @@
 # Ansible Role: Tomcat
 
-An Ansible Role that supplements [robertdebock.tomcat](../../../external/robertdebock.tomcat). 
+An Ansible Role that supplements [c2platform.tomcat](../../../external/c2platform.tomcat). This is a clone of [robertdebock.tomcat](https://github.com/robertdebock/ansible-role-tomcat).
 
 ## Apps
 
