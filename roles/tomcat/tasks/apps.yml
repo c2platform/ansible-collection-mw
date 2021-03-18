@@ -22,4 +22,5 @@
         owner: "{{ tomcat_user }}"
         group: "{{ tomcat_group }}"
         validate_certs: no
+      when: app['source']|default(False)
   when: app.deploy
