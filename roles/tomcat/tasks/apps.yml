@@ -23,4 +23,4 @@
         group: "{{ tomcat_group }}"
         validate_certs: no
       when: app['source']|default(False)
-  when: app.deploy
+  when: app.deploy|default(True)
