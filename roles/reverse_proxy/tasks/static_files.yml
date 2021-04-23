@@ -1,0 +1,20 @@
+---
+- name: Download static file
+  get_url:
+    url: "{{ item['url'] }}"
+    checksum: "{{ item['checksum']|default(omit) }}"
+    dest: "{{ item['dest'] }}"
+    owner: "{{ item['owner']|default('www-data') }}"
+    group: "{{ item['group']|default('www-data') }}"
+  when: item['url'] is defined
+  with_items: "{{ reverse_proxy_static_files }}"
+
+- name: Create static file
+  copy:
+    content: "{{ item['content'] }}"
+    dest: "{{ item['dest'] }}"
+    owner: "{{ item['owner']|default('www-data') }}"
+    group: "{{ item['group']|default('www-data') }}"
+  no_log: true
+  when: item['content'] is defined
+  with_items: "{{ reverse_proxy_static_files }}"
