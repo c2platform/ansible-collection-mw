@@ -39,17 +39,11 @@ defaults
 {% endif %}
 
 {% for f in haproxy_frontends %}
-
 frontend {{ f }}
-{%   for o in haproxy_frontends[f] %}
-  {{ o }} {{ haproxy_frontends[f][o] }}
-{%   endfor %}
+{{ haproxy_frontends[f]|indent( width=2, indentfirst=True) }}
 {% endfor %}
 
-{% for f in haproxy_backends %}
-
-backend {{ f }}
-{%   for o in haproxy_backends[f] %}
-  {{ o }} {{ haproxy_backends[f][o] }}
-{%   endfor %}
+{% for b in haproxy_backends %}
+backend {{ b }}
+{{ haproxy_backends[b]|indent( width=2, indentfirst=True) }}
 {% endfor %}
