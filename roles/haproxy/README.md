@@ -41,7 +41,7 @@ A list of extra global variables to add to the global configuration section insi
 
 ## Dependencies
 
-None.
+None. TODO c2platform.tasks, cert
 
 ## Example configuration
 

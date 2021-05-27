@@ -1,4 +1,9 @@
 ---
+- include_role:
+    name: c2platform.tasks
+    tasks_from: cert
+  when: cacerts_ca_domains is defined
+
 - name: Configure in place
   template:
     src: haproxy.cfg.j2
