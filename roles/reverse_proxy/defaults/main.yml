@@ -4,6 +4,7 @@ reverse_proxy_log_level: warn # debug, info, notice, warn, error, crit,
 
 reverse_proxy_proxy_timout: 300
 reverse_proxy_ssl_session_cache_timeout: 300
+reverse_proxy_apache_service: apache2
 
 reverse_proxy_vhosts: []
 #reverse_proxy_vhosts:
