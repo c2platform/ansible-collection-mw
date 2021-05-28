@@ -4,20 +4,20 @@
     src: ports.conf.j2
     dest: /etc/httpd/conf.d/ports.conf
     mode: 0644
-  notify: reload-apache
+  notify: reload apache
 
 - name: Configure Httpd
   template:
     src: reverse_proxy.conf.j2
     dest: "/etc/httpd/conf.d/reverse_proxy.conf"
     mode: 0644
-  notify: reload-apache
+  notify: reload apache
 
 - name: Delete obsolete config
   file:
    path: "/etc/httpd/conf.d/{{ item }}"
    state: absent
-  notify: reload-apache
+  notify: reload apache
   with_items:
      - autoindex.conf
      - ssl.conf

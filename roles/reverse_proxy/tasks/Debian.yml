@@ -4,20 +4,20 @@
     src: ports.conf.j2
     dest: /etc/apache2/ports.conf
     mode: 0644
-  notify: reload-apache
+  notify: reload apache
 
 - name: Configure Apache
   template:
     src: reverse_proxy.conf.j2
     dest: "/etc/apache2/sites-enabled/reverse_proxy.conf"
     mode: 0644
-  notify: reload-apache
+  notify: reload apache
 
 - name: Delete obsolete Debian config
   file:
     path: "/etc/apache2/sites-enabled/{{ item }}"
     state: absent
-  notify: reload-apache
+  notify: reload apache
   with_items:
      - 000-default.conf
      - vhosts.conf
