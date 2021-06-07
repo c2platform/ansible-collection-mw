@@ -48,3 +48,5 @@ haproxy_versions:
   2.3.2:
     url: https://www.haproxy.org/download/2.3/src/haproxy-2.3.2.tar.gz
     checksum: sha256:99cb73bb791a2cd18898d0595e14fdc820a6cbd622c762f4ed83f2884d038fd5
+
+haproxy_config_types: ['listen', 'frontend', 'backend']
