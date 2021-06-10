@@ -1,4 +1,4 @@
-# Ansible Role: HAProxy
+# Ansible Role HAProxy
 
 Installs HAProxy on RedHat/CentOS 7 and Debian servers.
 
@@ -10,11 +10,24 @@ haproxy_install_type:
   Debian: package
 ```
 
+<!-- MarkdownTOC levels="2,3" autolink="true" -->
+
+- [Requirements](#requirements)
+- [Role Variables](#role-variables)
+- [Dependencies](#dependencies)
+- [Example configuration](#example-configuration)
+
+<!-- /MarkdownTOC -->
+
 ## Requirements
+
+<!-- Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required. -->
 
 None.
 
 ## Role Variables
+
+<!--  A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well. -->
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
@@ -41,9 +54,13 @@ A list of extra global variables to add to the global configuration section insi
 
 ## Dependencies
 
+<!--   A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles. -->
+
 None. TODO c2platform.tasks, cert
 
 ## Example configuration
+
+<!--   Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too: -->
 
 The example config below configures the following
 1. Redirect all traffic from 80 to 443.
@@ -52,43 +69,35 @@ The example config below configures the following
 
 ```yaml
 ---
-haproxy_frontends:
-  http:
-    bind: "0.0.0.0:80 name 0.0.0.0:80"
-    mode: "http"
-    log: "global"
-    option: "http-keep-alive"
-    timeout client: "30000"
-    default_backend: "redirect_http_https"
-  https:
-    bind: "*:443"
-    mode: "tcp"
-    default_backend: "rproxies"
-  bitbucket:
-    bind: "*:7999"
-    mode: "tcp"
-    default_backend: "bitbucket"
-
-haproxy_backends:
-  redirect_http_https:
-    mode: "http"
-    timeout connect: "30000"
-    timeout server: "30000"
-    retries: "3"
-    option: "httpchk"
-    redirect scheme: "https code 301"
-  rproxies:
-    mode: "tcp"
-    server proxy: "1.1.1.2:443"
-  bitbucket:
-    mode: "tcp"
-    server proxy: "1.1.1.4:7999"
+haproxy_config:
+  frontend:
+    http: |
+      bind 0.0.0.0:80 name 0.0.0.0:80
+      mode http
+      log global
+      option http-keep-alive
+      timeout client 30000
+      default_backend redirect_http_https
+    https: |
+      bind *:443
+      mode tcp
+      default_backend rproxies
+    bitbucket: |
+      bind *:7999
+      mode tcp
+      default_backend bitbucket
+  backend:
+    redirect_http_https: |
+      mode http
+      timeout connect 30000
+      timeout server 30000
+      retries 3
+      option httpchk
+      redirect scheme https code 301
+    rproxies: |
+      mode tcp
+      server proxy 1.1.1.2:443
+    bitbucket: |
+      mode tcp
+      server proxy 1.1.1.4:7999
 ```
-
-## License
-
-MIT / BSD
-
-## Author Information
-
-This role was created in 2020 by [Onno van der Straaten ](https://www.onknows.com/).

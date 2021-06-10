@@ -15,6 +15,15 @@ haproxy_group: haproxy
 # Extra global vars (see README for example usage).
 haproxy_global_vars: []
 
+haproxy_defaults: |
+  log global
+  mode  http
+  option  httplog
+  option  dontlognull
+  timeout connect 5000
+  timeout client 50000
+  timeout server 50000
+
 # HAProxy binary per ansible_os_family
 haproxy_bin:
   source: /usr/local/sbin/haproxy
