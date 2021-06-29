@@ -7,6 +7,7 @@ reverse_proxy_ssl_session_cache_timeout: 300
 reverse_proxy_apache_service: apache2
 
 reverse_proxy_vhosts: []
+reverse_proxy_redirect_80: yes
 #reverse_proxy_vhosts:
 #  sh:
 #    server_name: sonarqube.tech

@@ -12,11 +12,13 @@ SSLRandomSeed startup file://dev/urandom 256
 SSLRandomSeed connect builtin
 SSLCryptoDevice builtin
 
+{% if reverse_proxy_redirect_80 %}
 <VirtualHost *:80>
     RewriteEngine On
     RewriteCond %{HTTPS} off
-    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=302,L,QSA] 
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=302,L,QSA]
 </VirtualHost>
+{% endif %}
 
 {% for hst in reverse_proxy_vhosts %}
 <VirtualHost *:{{ reverse_proxy_vhosts[hst].port }}>
