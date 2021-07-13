@@ -15,7 +15,7 @@ global
 {% endfor %}
 
 defaults
-{{ haproxy_defaults|indent( width=2, indentfirst=True) }}
+{{ haproxy_defaults|indent(2, True) }}
 {% if ansible_os_family == 'Debian' %}
   errorfile 400 /etc/haproxy/errors/400.http
   errorfile 403 /etc/haproxy/errors/403.http
@@ -30,7 +30,7 @@ defaults
 {%   if haproxy_config[tpe] is defined %}
 {%     for cfg in haproxy_config[tpe] %}
 {{ tpe }} {{ cfg }}
-{{ haproxy_config[tpe][cfg]|indent( width=2, indentfirst=True) }}
+{{ haproxy_config[tpe][cfg]|indent(2, True) }}
 {%     endfor %}
 {%   endif %}
 {% endfor %}
