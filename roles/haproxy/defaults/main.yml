@@ -15,6 +15,11 @@ haproxy_group: haproxy
 # Extra global vars (see README for example usage).
 haproxy_global_vars: []
 
+haproxy_global: |
+  log /dev/log  local0
+  log /dev/log  local1 notice
+  daemon
+
 haproxy_defaults: |
   log global
   mode  http
