@@ -1,0 +1,38 @@
+---
+apache_owner: www-data
+apache_group: www-data
+apache_files_remove: []
+
+apache_mods_enabled: # Debian/Ubuntu.
+  - rewrite.load
+  - ssl.load
+apache_mods_disabled: []
+
+apache_state: started # stopped
+apache_restart_state: restarted # reloaded
+apache_packages_state: present # latest for upgrade
+
+apache_os_families_settings:
+  debian: # ansible_os_family
+    service: apache2
+    daemon: apache2
+    daemon_path: /usr/sbin/
+    server_root: /etc/apache2
+    conf_path: /etc/apache2
+    packages:
+    - apache2
+    - apache2-utils
+    log_dir: /var/log/apache2
+  redhat:
+    service: httpd
+    daemon: httpd
+    daemon_path: /usr/sbin/
+    server_root: /etc/httpd
+    conf_path: /etc/httpd/conf.d
+    vhosts_version: "2.2"
+    packages:
+      - httpd
+      - httpd-devel
+      - mod_ssl
+      - openssh
+    enablerepo: yes # enable EPEL for newer apache versions

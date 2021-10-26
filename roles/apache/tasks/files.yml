@@ -1,0 +1,35 @@
+---
+- name: Create dirname
+  file:
+    path: "{{ item['dest']|dirname }}"
+    state: directory
+    mode: 0755
+  with_items: "{{ apache_files_set }}"
+
+- name: Various "content" files
+  copy:
+    content: "{{ item['content'] }}"
+    dest: "{{ item['dest'] }}"
+    mode: "{{ item['mode']|default('0755') }}"
+    owner: "{{ item['owner']|default(apache_owner) }}"
+    group: "{{ item['group']|default(apache_group) }}"
+  with_items: "{{ apache_files_set|selectattr('content', 'defined')|list }}"
+  notify: "{{ item['notify']|default(omit) }}"
+
+- name: Various "src" files
+  get_url:
+    url: "{{ item['src'] }}"
+    checksum: "{{ item['checksum']|default(omit) }}"
+    dest: "{{ item['dest'] }}"
+    mode: "{{ item['mode']|default('0755') }}"
+    owner: "{{ item['owner']|default(apache_owner) }}"
+    group: "{{ item['group']|default(apache_group) }}"
+  with_items: "{{ apache_files_set|selectattr('src', 'defined')|list }}"
+  notify: "{{ item['notify']|default(omit) }}"
+
+- name: Remove files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items: "{{ apache_files_remove }}"
+  notify: reload-apache

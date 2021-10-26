@@ -1,0 +1,15 @@
+---
+- name: Include certs tasks
+  include_role:
+    name: c2platform.core.cacerts2
+    tasks_from: certs
+  vars:
+    cacerts2_role_name: apache # role_name
+
+- copy: # debug
+    content: "{{ {'apache_cacerts2_certificates': apache_cacerts2_certificates }|to_nice_yaml }}"
+    dest: /vagrant/apache_cacerts2_certificates.yml
+
+- copy: # debug
+    content: "{{ {'cacerts2_ca_domain': cacerts2_ca_domain }|to_nice_yaml }}"
+    dest: /vagrant/cacerts2_ca_domain.yml
