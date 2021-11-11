@@ -14,6 +14,16 @@
     validate: "{{ haproxy_bin[haproxy_install_type[ansible_os_family]] }} -f %s -c -q"
   notify: restart haproxy
 
+- name: Files
+  include_role:
+    name: c2platform.core.files
+    tasks_from: main
+  vars:
+    role_name: haproxy # role_name
+    common_files: "{{ haproxy_files|default([]) }}"
+    common_directories: "{{ haproxy_directories|default([]) }}"
+    common_acl: "{{ haproxy_acl|default([]) }}"
+
 - name: Ensure HAProxy is started and enabled n boot.
   service:
     name: haproxy
