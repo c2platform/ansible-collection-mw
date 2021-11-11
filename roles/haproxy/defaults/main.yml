@@ -41,6 +41,8 @@ haproxy_install_type:
   RedHat: source
   Debian: package
 
+haproxy_validate: "{{ haproxy_bin[haproxy_install_type[ansible_os_family]] }} -f %s -c -q"
+
 # Packages to install per ansible_os_family
 # for source install
 haproxy_packages:
@@ -63,4 +65,4 @@ haproxy_versions:
     url: https://www.haproxy.org/download/2.3/src/haproxy-2.3.2.tar.gz
     checksum: sha256:99cb73bb791a2cd18898d0595e14fdc820a6cbd622c762f4ed83f2884d038fd5
 
-haproxy_config_types: ['listen', 'frontend', 'backend']
+haproxy_config_types: ['listen', 'frontend', 'backend', 'userlist']
