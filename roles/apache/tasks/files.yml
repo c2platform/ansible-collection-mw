@@ -5,6 +5,8 @@
     state: directory
     mode: 0755
   with_items: "{{ apache_files_set }}"
+  loop_control:
+    label: "{{ item['dest'] }}"
 
 - name: Various "content" files
   copy:
@@ -15,6 +17,8 @@
     group: "{{ item['group']|default(apache_group) }}"
   with_items: "{{ apache_files_set|selectattr('content', 'defined')|list }}"
   notify: "{{ item['notify']|default(omit) }}"
+  loop_control:
+    label: "{{ item['dest'] }}"
 
 - name: Various "src" files
   get_url:
@@ -26,6 +30,8 @@
     group: "{{ item['group']|default(apache_group) }}"
   with_items: "{{ apache_files_set|selectattr('src', 'defined')|list }}"
   notify: "{{ item['notify']|default(omit) }}"
+  loop_control:
+    label: "{{ item['dest'] }}"
 
 - name: Remove files
   file:

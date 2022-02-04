@@ -25,6 +25,18 @@
     apache_files_set: "{{ apache_files[apache_files_set_item] }}"
   when: apache_files is defined
 
+- name: Directories
+  file:
+    path: "{{ item['path'] }}"
+    owner: "{{ item['owner']|default(apache_owner) }}"
+    group: "{{ item['group']|default(apache_group) }}"
+    state: "{{ item['state']|default('directory') }}"
+    mode: "{{ item['mode']|default('0755') }}"
+  with_items: "{{ apache_directories }}"
+  when: apache_directories is defined
+  loop_control:
+    label: "{{ item['path'] }}"
+
 - block: # debian mods
   - name: Enable Apache mods
     file:
