@@ -20,7 +20,7 @@
     state: absent
   notify: restart apache
   with_items:
-     - autoindex.conf
-     - ssl.conf
-     - userdir.conf
-     - welcome.conf
+    - autoindex.conf
+    - ssl.conf
+    - userdir.conf
+    - welcome.conf

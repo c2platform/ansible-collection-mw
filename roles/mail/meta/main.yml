@@ -1,3 +1,3 @@
 ---
 dependencies:
-  - {role: robertdebock.postfix,    tags: mail}
+  - {role: robertdebock.postfix, tags: mail}

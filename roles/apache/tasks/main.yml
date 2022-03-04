@@ -1,6 +1,7 @@
 ---
-- set_fact:
-   apache_settings: "{{ apache_os_families_settings[ansible_os_family|lower] }}"
+- name: Fact apache_settings
+  set_fact:
+    apache_settings: "{{ apache_os_families_settings[ansible_os_family|lower] }}"
 
 - name: Update apt cache
   apt:
@@ -37,22 +38,22 @@
   loop_control:
     label: "{{ item['path'] }}"
 
-- block: # debian mods
-  - name: Enable Apache mods
-    file:
-      src: "{{ apache_settings['server_root'] }}/mods-available/{{ item }}"
-      dest: "{{ apache_settings['server_root'] }}/mods-enabled/{{ item }}"
-      state: link
-      mode: 0644
-    with_items: "{{ apache_mods_enabled }}"
-    notify: restart-apache
+- block:  # debian mods
+    - name: Enable Apache mods
+      file:
+        src: "{{ apache_settings['server_root'] }}/mods-available/{{ item }}"
+        dest: "{{ apache_settings['server_root'] }}/mods-enabled/{{ item }}"
+        state: link
+        mode: 0644
+      with_items: "{{ apache_mods_enabled }}"
+      notify: restart-apache
 
-  - name: Disable Apache mods
-    file:
-      path: "{{ apache_settings['server_root'] }}/mods-enabled/{{ item }}"
-      state: absent
-    with_items: "{{ apache_mods_disabled }}"
-    notify: restart-apache
+    - name: Disable Apache mods
+      file:
+        path: "{{ apache_settings['server_root'] }}/mods-enabled/{{ item }}"
+        state: absent
+      with_items: "{{ apache_mods_disabled }}"
+      notify: restart-apache
   when: ansible_os_family == 'Debian'
 
 - name: Ensure Apache has selected state and enabled on boot
