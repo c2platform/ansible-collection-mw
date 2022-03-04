@@ -15,6 +15,7 @@
     dest: "{{ item['dest'] }}"
     owner: "{{ item['owner']|default('www-data') }}"
     group: "{{ item['group']|default('www-data') }}"
+    mode: "{{ item['mode']|default('664') }}"
   no_log: true
   when: item['content'] is defined
   with_items: "{{ reverse_proxy_static_files }}"
