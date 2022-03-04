@@ -1,20 +1,27 @@
-
+---
 namespace: c2platform
 name: mw
-
-version: 1.0.0
-
-authors:
-- Onno van der Straaten (https://github.com/onknows)
-
-description: C2 Platform Ansible Collection with Middleware
-license_file: LICENSE
+version: "0.1.0"
 readme: README.md
+authors:
+  - Onno van der Straaten (onno@onknows.com)
+license_file: LICENSE
 
-tags: []
+description: C2 Platform Ansible Collection for Middleware Services
 
-dependencies:
-  c2platform.platform: ">=1.0.0"
+tags:
+  - c2platform
+  - middleware
+  - apache
+  - docker
+  - haproxy
+  - nfs
+  - postgresql
+  - squid
+  - collection
+  - linux
+
+dependencies: {}
 
 repository: https://github.com/c2platform/ansible-collection-mw
 documentation: https://github.com/c2platform/ansible-collection-mw
