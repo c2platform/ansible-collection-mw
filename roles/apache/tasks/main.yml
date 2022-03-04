@@ -1,0 +1,62 @@
+---
+- set_fact:
+   apache_settings: "{{ apache_os_families_settings[ansible_os_family|lower] }}"
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  when: ansible_os_family == 'Debian'
+
+- name: Install Apache
+  package:
+    name: "{{ apache_settings['packages'] }}"
+    state: "{{ apache_packages_state }}"
+    enablerepo: "{{ apache_settings['enablerepo']|default(omit) }}"
+
+- include_tasks: certs.yml
+  when: apache_cacerts2_certificates is defined
+
+- include_tasks: files.yml
+  with_items: "{{ apache_files }}"
+  loop_control:
+    loop_var: apache_files_set_item
+  vars:
+    apache_files_set: "{{ apache_files[apache_files_set_item] }}"
+  when: apache_files is defined
+
+- name: Directories
+  file:
+    path: "{{ item['path'] }}"
+    owner: "{{ item['owner']|default(apache_owner) }}"
+    group: "{{ item['group']|default(apache_group) }}"
+    state: "{{ item['state']|default('directory') }}"
+    mode: "{{ item['mode']|default('0755') }}"
+  with_items: "{{ apache_directories }}"
+  when: apache_directories is defined
+  loop_control:
+    label: "{{ item['path'] }}"
+
+- block: # debian mods
+  - name: Enable Apache mods
+    file:
+      src: "{{ apache_settings['server_root'] }}/mods-available/{{ item }}"
+      dest: "{{ apache_settings['server_root'] }}/mods-enabled/{{ item }}"
+      state: link
+      mode: 0644
+    with_items: "{{ apache_mods_enabled }}"
+    notify: restart-apache
+
+  - name: Disable Apache mods
+    file:
+      path: "{{ apache_settings['server_root'] }}/mods-enabled/{{ item }}"
+      state: absent
+    with_items: "{{ apache_mods_disabled }}"
+    notify: restart-apache
+  when: ansible_os_family == 'Debian'
+
+- name: Ensure Apache has selected state and enabled on boot
+  service:
+    name: "{{ apache_settings['service'] }}"
+    state: "{{ apache_state }}"
+    enabled: true

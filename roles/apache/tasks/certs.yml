@@ -1,0 +1,7 @@
+---
+- name: Include certs tasks
+  include_role:
+    name: c2platform.core.cacerts2
+    tasks_from: certs
+  vars:
+    cacerts2_role_name: apache # role_name
