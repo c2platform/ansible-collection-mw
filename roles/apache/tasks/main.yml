@@ -18,25 +18,15 @@
 - include_tasks: certs.yml
   when: apache_cacerts2_certificates is defined
 
-- include_tasks: files.yml
-  with_items: "{{ apache_files }}"
-  loop_control:
-    loop_var: apache_files_set_item
+- name: Files
+  include_role:
+    name: c2platform.core.files
+    tasks_from: main
   vars:
-    apache_files_set: "{{ apache_files[apache_files_set_item] }}"
-  when: apache_files is defined
-
-- name: Directories
-  file:
-    path: "{{ item['path'] }}"
-    owner: "{{ item['owner']|default(apache_owner) }}"
-    group: "{{ item['group']|default(apache_group) }}"
-    state: "{{ item['state']|default('directory') }}"
-    mode: "{{ item['mode']|default('0755') }}"
-  with_items: "{{ apache_directories }}"
-  when: apache_directories is defined
-  loop_control:
-    label: "{{ item['path'] }}"
+    role_name: tomcat # role_name
+    common_files: "{{ apache_files }}"
+    common_directories: "{{ apache_directories }}"
+    common_acl: "{{ apache_acl }}"
 
 - block:  # debian mods
     - name: Enable Apache mods

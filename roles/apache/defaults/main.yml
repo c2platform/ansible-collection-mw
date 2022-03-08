@@ -36,3 +36,7 @@ apache_os_families_settings:
       - mod_ssl
       - openssh
     enablerepo: yes  # enable EPEL for newer apache versions
+
+apache_files: []
+apache_directories: []
+apache_acl: []

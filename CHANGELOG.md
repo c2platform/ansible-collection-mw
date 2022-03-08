@@ -2,9 +2,9 @@
 
 This file is used to list changes made in each version of the [c2platform.mw](https://github.com/c2platform/ansible-collection-mw) collection.
 
-## 0.1.1 (TODO)
+## 0.1.1 (2022-03-08)
 
-* Fix task "Create dirname" fail when `dest` is not defined
+* Reusing / integrating [c2platform.core.files](https://github.com/c2platform/ansible-collection-core/blob/master/roles/files) to provide dicts apache_files, apache_directories, apache_acl
 
 ## 0.1.0 (2022-02-14)
 
