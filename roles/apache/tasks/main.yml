@@ -23,7 +23,7 @@
     name: c2platform.core.files
     tasks_from: main
   vars:
-    role_name: tomcat  # role_name
+    role_name: apache  # role_name
     common_files: "{{ apache_files }}"
     common_directories: "{{ apache_directories }}"
     common_acl: "{{ apache_acl }}"
