@@ -4,7 +4,7 @@
     path: "{{ item['dest']|dirname }}"
     state: directory
     mode: 0755
-  with_items: "{{ apache_files_set }}"
+  with_items: "{{ apache_files_set|selectattr('dest', 'defined')|list }}"
   loop_control:
     label: "{{ item['dest'] }}"
 
