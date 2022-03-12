@@ -4,10 +4,7 @@
     name: c2platform.core.files
     tasks_from: main
   vars:
-    role_name: haproxy  # role_name
-    common_files: "{{ haproxy_files|default([]) }}"
-    common_directories: "{{ haproxy_directories|default([]) }}"
-    common_acl: "{{ haproxy_acl|default([]) }}"
+    role_name: haproxy
 
 - name: Configure in place
   template:

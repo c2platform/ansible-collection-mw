@@ -52,11 +52,32 @@ Use `haproxy_frontends` to configure frontends and `haproxy_backends` to configu
 
 A list of extra global variables to add to the global configuration section inside `haproxy.cfg`.
 
+To create certificates you might consider using [cacerts2](https://github.com/c2platform/ansible-collection-core/tree/master/roles/cacerts2) from Ansible collection [c2platform.core](https://galaxy.ansible.com/c2platform/core). You would then use dict `haproxy_cacerts2_certificates` for example as follows:
+
+```yaml
+---
+haproxy_cacerts2_certificates:
+  - common_name: ok
+    subject_alt_name:
+    - "DNS:example.com"
+    - "DNS:*.example.com"
+    - "DNS:{{ ansible_hostname }}"
+    - "DNS:{{ ansible_fqdn }}"
+    - "IP:{{ hostvars[inventory_hostname]['ansible_host'] }}"
+    ansible_group: haproxy
+    deploy:
+      pem:
+        dir: /etc/haproxy/conf
+        owner: www-data
+        group: www-data
+        mode: '640'
+```
+
 ## Dependencies
 
 <!--   A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles. -->
 
-None. TODO c2platform.tasks, cert
+1. Ansible collection [c2platform.core](https://galaxy.ansible.com/c2platform/core) 0.1.4
 
 ## Example configuration
 

@@ -1,3 +1,7 @@
 ---
 - include: "{{haproxy_install_type[ansible_os_family]}}.yml"
+
+- include_tasks: certs.yml
+  when: haproxy_cacerts2_certificates is defined
+
 - include: configure.yml
