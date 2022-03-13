@@ -4,7 +4,7 @@
     name: c2platform.core.files
     tasks_from: main
   vars:
-    role_name: haproxy
+    common_files_role_name: haproxy
 
 - name: Configure in place
   template:
