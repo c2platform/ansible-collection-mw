@@ -1,3 +1,9 @@
 ---
 - include: "{{haproxy_install_type[ansible_os_family]}}.yml"
+- name: Gather facts
+  include_role:
+    name: c2platform.core.facts
+    tasks_from: main
+  vars:
+    common_facts_role_name: haproxy
 - include: configure.yml

@@ -52,6 +52,11 @@ Use `haproxy_frontends` to configure frontends and `haproxy_backends` to configu
 
 A list of extra global variables to add to the global configuration section inside `haproxy.cfg`.
 
+```yaml
+haproxy_facts_gather_hosts: "{{ groups['suwinet_inkijk'] }}"
+haproxy_facts_filter: 'ansible_eth1'
+```
+
 ## Dependencies
 
 <!--   A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles. -->
