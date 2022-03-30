@@ -12,7 +12,3 @@ squid_acls:
   - name: alwaysdirectnet
     classifier: src
     value: "\"{{ proxy_upstream_always_direct_file }}\""
-
-# Configure upstream proxy server
-# proxy_upstream_server: 
-# proxy_upstream_port: 

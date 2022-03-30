@@ -15,12 +15,12 @@
 
 - name: Delete obsolete config
   file:
-   path: "/etc/httpd/conf.d/{{ item }}"
-   state: absent
+    path: "/etc/httpd/conf.d/{{ item }}"
+    state: absent
   notify: reload apache
   with_items:
-     - autoindex.conf
-     - ssl.conf
-     - userdir.conf
-     - vhosts.conf
-     - welcome.conf
+    - autoindex.conf
+    - ssl.conf
+    - userdir.conf
+    - vhosts.conf
+    - welcome.conf

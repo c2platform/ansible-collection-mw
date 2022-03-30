@@ -1,23 +1,23 @@
 ---
-  - name: install package and Required Extensions
-    apt:
-      name: "{{ mail_install_packages }}"
-      state: "{{ apt_install_state | default('latest') }}"
-      update_cache: true
-      cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  - name: configure postfix (main.cf)
-    ansible.builtin.template:
-      src: main.cf.j2
-      dest: /etc/postfix/main.cf
-      validate: postconf -d -c %s
-      mode: "0644"
-    notify:
-      - restart postfix
-  - name: configure postfix (master.cf)
-    ansible.builtin.template:
-      src: master.cf.j2
-      dest: /etc/postfix/master.cf
-      validate: postconf -d -c %s
-      mode: "0644"
-    notify:
-      - restart postfix
+- name: install package and Required Extensions
+  apt:
+    name: "{{ mail_install_packages }}"
+    state: "{{ apt_install_state | default('latest') }}"
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+- name: configure postfix (main.cf)
+  ansible.builtin.template:
+    src: main.cf.j2
+    dest: /etc/postfix/main.cf
+    validate: postconf -d -c %s
+    mode: "0644"
+  notify:
+    - restart postfix
+- name: configure postfix (master.cf)
+  ansible.builtin.template:
+    src: master.cf.j2
+    dest: /etc/postfix/master.cf
+    validate: postconf -d -c %s
+    mode: "0644"
+  notify:
+    - restart postfix

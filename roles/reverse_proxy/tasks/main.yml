@@ -1,6 +1,7 @@
 ---
-- include: certs.yml
+- include: certs.yml  # TODO remove and document use of cacerts2
   when: not reverse_proxy_ca_domain_cert is defined
+
 - include: "{{ ansible_os_family }}.yml"
 
 - name: Copy favicon
@@ -19,11 +20,6 @@
 
 - include_tasks: static_files.yml
   when: reverse_proxy_static_files is defined
-
-- include_role:
-    name: c2platform.tasks
-    tasks_from: cert
-  when: cacerts_ca_domains is defined
 
 - name: Ensure Apache has selected state and enabled on boot.
   service:

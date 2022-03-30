@@ -1,6 +1,6 @@
 ---
 mail_install_packages:
-- mailutils
+  - mailutils
 
 postfix_mynetworks: "127.0.0.0/8"
 postfix_inet_protocols: "ipv4"

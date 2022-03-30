@@ -19,14 +19,14 @@
     state: absent
   notify: reload apache
   with_items:
-     - 000-default.conf
-     - vhosts.conf
+    - 000-default.conf
+    - vhosts.conf
 
 - name: Enable mods
   command: "a2enmod {{ item }}"
   args:
     creates: /etc/apache2/mods-enabled/proxy_http.load
   with_items:
-     - socache_shmcb
-     - proxy
-     - proxy_http
+    - socache_shmcb
+    - proxy
+    - proxy_http

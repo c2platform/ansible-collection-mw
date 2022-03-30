@@ -1,18 +1,10 @@
 ---
-- include_role:
-    name: c2platform.tasks
-    tasks_from: cert
-  when: cacerts_ca_domains is defined
-
 - name: Files
   include_role:
     name: c2platform.core.files
     tasks_from: main
   vars:
-    role_name: haproxy # role_name
-    common_files: "{{ haproxy_files|default([]) }}"
-    common_directories: "{{ haproxy_directories|default([]) }}"
-    common_acl: "{{ haproxy_acl|default([]) }}"
+    common_files_role_name: haproxy
 
 - name: Configure in place
   template:

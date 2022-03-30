@@ -10,4 +10,3 @@ postgresql_users:
 
 postgresql_unix_socket_directories:
   - /var/run/postgresql
-

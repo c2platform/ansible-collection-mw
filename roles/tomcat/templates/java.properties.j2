@@ -1,8 +1,0 @@
-# {{ ansible_managed }}
-# Application: {{ app['name'] }}
-# Tomcat instance: {{ app['instance'] }}
-# Properties: {{ app['name']|c2platform.mw.tomcat_properties_file_path(app['properties_folder']) }}
-# Environment: {{ inventory_file|c2platform.core.ansible_environment }}
-{% for prop in app['properties'] %}
-{{ prop }}={{ app['properties'][prop] }}
-{% endfor %}
