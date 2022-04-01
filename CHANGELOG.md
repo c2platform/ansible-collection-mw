@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the [c2platform.mw](https://github.com/c2platform/ansible-collection-mw) collection.
 
+## 0.1.7 (2022-04-01)
+
+* Fix HAProxy. Gather facts using [c2platform.core.facts](https://github.com/c2platform/ansible-collection-core/tree/master/roles/facts) only when `haproxy_facts_gather_hosts`
+
 ## 0.1.6 (2022-03-30)
 
 * HAProxy using [c2platform.core.facts](https://github.com/c2platform/ansible-collection-core/tree/master/roles/facts) - configure `haproxy_facts_gather_hosts` `haproxy_facts_filter` to get `haproxy_facts_hosts`.
