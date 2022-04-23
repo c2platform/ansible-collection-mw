@@ -1,4 +1,12 @@
 ---
+- include_tasks: networks.yml
+  with_items: "{{ docker_networks }}"
+  when: docker_networks is defined
+  loop_control:
+    loop_var: docker_networks_set_item
+  vars:
+    docker_networks_set: "{{ docker_networks[docker_networks_set_item] }}"
+
 - include: proxy_for_containers.yml
   when: docker_proxy_http is defined and docker_proxy_users is defined
 

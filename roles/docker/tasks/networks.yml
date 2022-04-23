@@ -1,0 +1,14 @@
+---
+- name: Network
+  community.docker.docker_network:
+    name: "{{ item['name'] }}"
+    connected: "{{ item['connected']|default(omit) }}"
+    appends: "{{ item['appends']|default(omit) }}"
+    ipam_config: "{{ item['ipam_config']|default(omit) }}"
+    labels: "{{ item['labels']|default(omit) }}"
+    force: "{{ item['force']|default(omit) }}"
+    state: "{{ item['state']|default(omit) }}"
+  with_items: "{{ docker_networks_set }}"
+  loop_control:
+    label: "{{ item['name'] }}"
+  notify: "{{ item['notify']|default(omit) }}"
