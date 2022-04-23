@@ -52,10 +52,14 @@ Use `haproxy_frontends` to configure frontends and `haproxy_backends` to configu
 
 A list of extra global variables to add to the global configuration section inside `haproxy.cfg`.
 
+```yaml
+haproxy_facts_gather_hosts: "{{ groups['suwinet_inkijk'] }}"
+haproxy_facts_filter: 'ansible_eth1'
+```
+
 To create certificates you might consider using [cacerts2](https://github.com/c2platform/ansible-collection-core/tree/master/roles/cacerts2) from Ansible collection [c2platform.core](https://galaxy.ansible.com/c2platform/core). You would then use dict `haproxy_cacerts2_certificates` for example as follows:
 
 ```yaml
----
 haproxy_cacerts2_certificates:
   - common_name: ok
     subject_alt_name:
@@ -77,7 +81,7 @@ haproxy_cacerts2_certificates:
 
 <!--   A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles. -->
 
-1. Ansible collection [c2platform.core](https://galaxy.ansible.com/c2platform/core) 0.1.4
+1. Ansible collection [c2platform.core](https://galaxy.ansible.com/c2platform/core) 0.1.5
 
 ## Example configuration
 
