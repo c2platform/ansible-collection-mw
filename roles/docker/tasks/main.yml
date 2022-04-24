@@ -1,11 +1,68 @@
 ---
-- include_tasks: networks.yml
+- name: Set Docker facts
+  set_fact:
+    docker_networks: "{{ lookup('vars', docker_role_name+'_docker_networks') }}"
+    docker_images: "{{ lookup('vars', docker_role_name+'_docker_images') }}"
+    docker_containers: "{{ lookup('vars', docker_role_name+'_docker_containers') }}"
+  when: docker_role_name is defined
+
+- name: Networks
+  community.docker.docker_network:
+    name: "{{ item['name'] }}"
+    connected: "{{ item['connected']|default(omit) }}"
+    appends: "{{ item['appends']|default(omit) }}"
+    ipam_config: "{{ item['ipam_config']|default(omit) }}"
+    labels: "{{ item['labels']|default(omit) }}"
+    force: "{{ item['force']|default(omit) }}"
+    state: "{{ item['state']|default(omit) }}"
   with_items: "{{ docker_networks }}"
-  when: docker_networks is defined
   loop_control:
-    loop_var: docker_networks_set_item
-  vars:
-    docker_networks_set: "{{ docker_networks[docker_networks_set_item] }}"
+    label: "{{ item['name'] }}"
+  notify: "{{ item['notify']|default(omit) }}"
+  when: docker_networks is defined
+
+- name: Images
+  community.docker.docker_image:
+    name: "{{ item['name'] }}"
+    source: "{{ item['source']|default('pull') }}"
+    pull: "{{ item['pull']|default(omit) }}"
+    push: "{{ item['push']|default(omit) }}"
+    repository: "{{ item['repository']|default(omit) }}"
+    tag: "{{ item['tag']|default(omit) }}"
+    force_tag: "{{ item['force_tag']|default(omit) }}"
+    build: "{{ item['build']|default(omit) }}"
+    archive_path: "{{ item['archive_path']|default(omit) }}"
+    load_path: "{{ item['load_path']|default(omit) }}"
+    state: "{{ item['state']|default(omit) }}"
+  with_items: "{{ docker_images }}"
+  loop_control:
+    label: "{{ item['name'] }}"
+  notify: "{{ item['notify']|default(omit) }}"
+  when: docker_images is defined
+
+- name: Container
+  community.docker.docker_container:
+    name: "{{ item['name'] }}"
+    image: "{{ item['image'] }}"
+    volumes: "{{ item['volumes']|default(omit) }}"
+    command: "{{ item['command']|default(omit) }}"
+    exposed_ports: "{{ item['exposed_ports']|default(omit) }}"
+    volumes_from: "{{ item['volumes_from']|default(omit) }}"
+    links: "{{ item['links']|default(omit) }}"
+    devices: "{{ item['devices']|default(omit) }}"
+    ports: "{{ item['ports']|default(omit) }}"
+    env: "{{ item['env']|default(omit) }}"
+    log_driver: "{{ item['log_driver']|default(omit) }}"
+    log_options: "{{ item['log_options']|default(omit) }}"
+    networks: "{{ item['networks']|default(omit) }}"
+    purge_networks: "{{ item['purge_networks']|default(omit) }}"
+    recreate: "{{ item['recreate']|default(omit) }}"
+    state: "{{ item['state']|default(omit) }}"
+  with_items: "{{ docker_containers }}"
+  loop_control:
+    label: "{{ item['name'] }}"
+  notify: "{{ item['notify']|default(omit) }}"
+  when: docker_containers is defined
 
 - include: proxy_for_containers.yml
   when: docker_proxy_http is defined and docker_proxy_users is defined
