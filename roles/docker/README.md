@@ -7,6 +7,8 @@ This role provides dicts that can be used to create Docker resources using [comm
 - [Requirements](#requirements)
 - [Role Variables](#role-variables)
   - [docker_networks](#docker_networks)
+  - [docker_images](#docker_images)
+  - [docker_containers](#docker_containers)
 - [Dependencies](#dependencies)
 - [Example Playbook](#example-playbook)
 
@@ -24,19 +26,42 @@ This role provides dicts that can be used to create Docker resources using [comm
 
 ### docker_networks
 
-Create Docker networks using dict `docker_networks`. This dict can be used to provide groups of networks.
-
 ```yaml
 docker_networks:
-  whatever:
-    - name: network_one
-      connected:
-        - container_a
-        - container_b
-        - container_c
+  - name: network_one
+    connected:
+      - container_a
+      - container_b
+      - container_c
 ```
 
 See [docker_network module](https://docs.ansible.com/ansible/latest/collections/community/docker/docker_network_module.html#ansible-collections-community-docker-docker-network-module)
+
+### docker_images
+
+```yaml
+docker_images:
+  - name: pacur/centos-7
+    source: pull
+    # Select platform for pulling. If not specified, will pull whatever docker prefers.
+    pull:
+      platform: amd64
+```
+
+See [docker_image module](https://docs.ansible.com/ansible/latest/collections/community/docker/docker_image_module.html#ansible-collections-community-docker-docker-image-module)
+
+### docker_containers
+
+```yaml
+docker_images:
+  - name: mydata
+    image: busybox
+    volumes:
+      - /data
+```
+
+See [docker_container module](https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_module.html#ansible-collections-community-docker-docker-container-module)
+
 
 ## Dependencies
 
