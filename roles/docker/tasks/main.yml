@@ -1,9 +1,11 @@
 ---
 - name: Set Docker facts
   set_fact:
-    docker_networks: "{{ lookup('vars', docker_role_name+'_docker_networks') }}"
-    docker_images: "{{ lookup('vars', docker_role_name+'_docker_images') }}"
-    docker_containers: "{{ lookup('vars', docker_role_name+'_docker_containers') }}"
+    docker_networks: "{{ lookup('vars', docker_role_name+'_docker_networks', default=[]) }}"
+    docker_images: "{{ lookup('vars', docker_role_name+'_docker_images', default=[]) }}"
+    docker_containers: "{{ lookup('vars', docker_role_name+'_docker_containers', default=[]) }}"
+    docker_volumes: "{{ lookup('vars', docker_role_name+'_docker_volumes', default=[]) }}"
+    docker_composes: "{{ lookup('vars', docker_role_name+'_docker_composes', default=[]) }}"
   when: docker_role_name is defined
 
 - name: Networks
@@ -40,6 +42,22 @@
   notify: "{{ item['notify']|default(omit) }}"
   when: docker_images is defined
 
+- name: Volumes
+  community.docker.docker_volume:
+    name: "{{ item['name'] }}"
+    docker_host: "{{ item['docker_host']|default(omit) }}"
+    driver: "{{ item['driver']|default(omit) }}"
+    force: "{{ item['force']|default(omit) }}"
+    labels: "{{ item['labels']|default(omit) }}"
+    timeout: "{{ item['timeout']|default(omit) }}"
+    driver_options: "{{ item['driver_options']|default(omit) }}"
+    state: "{{ item['state']|default(omit) }}"
+  with_items: "{{ docker_volumes }}"
+  loop_control:
+    label: "{{ item['name'] }}"
+  notify: "{{ item['notify']|default(omit) }}"
+  when: docker_volumes is defined
+
 - name: Container
   community.docker.docker_container:
     name: "{{ item['name'] }}"
@@ -63,6 +81,22 @@
     label: "{{ item['name'] }}"
   notify: "{{ item['notify']|default(omit) }}"
   when: docker_containers is defined
+
+- name: Compose
+  community.docker.docker_compose:
+    project_name: "{{ item['project_name']|default(omit) }}"
+    definition: "{{ item['definition']|default(omit) }}"
+    project_src: "{{ item['project_src']|default(omit) }}"
+    restarted: "{{ item['restarted']|default(omit) }}"
+    scale: "{{ item['scale']|default(omit) }}"
+    build: "{{ item['build']|default(omit) }}"
+    stopped: "{{ item['stopped']|default(omit) }}"
+    state: "{{ item['state']|default('present') }}"
+  with_items: "{{ docker_composes }}"
+  loop_control:
+    label: "{{ item['project_name'] }}"
+  notify: "{{ item['notify']|default(omit) }}"
+  when: docker_composes is defined
 
 - include: proxy_for_containers.yml
   when: docker_proxy_http is defined and docker_proxy_users is defined
