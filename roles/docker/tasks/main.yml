@@ -6,6 +6,7 @@
     docker_containers: "{{ lookup('vars', docker_role_name+'_docker_containers', default=[]) }}"
     docker_volumes: "{{ lookup('vars', docker_role_name+'_docker_volumes', default=[]) }}"
     docker_composes: "{{ lookup('vars', docker_role_name+'_docker_composes', default=[]) }}"
+    docker_cp: "{{ lookup('vars', docker_role_name+'_docker_cp', default=[]) }}"
   when: docker_role_name is defined
 
 - name: Networks
@@ -70,11 +71,13 @@
     devices: "{{ item['devices']|default(omit) }}"
     ports: "{{ item['ports']|default(omit) }}"
     env: "{{ item['env']|default(omit) }}"
+    etc_hosts: "{{ item['etc_hosts']|default(omit) }}"
     log_driver: "{{ item['log_driver']|default(omit) }}"
     log_options: "{{ item['log_options']|default(omit) }}"
     networks: "{{ item['networks']|default(omit) }}"
     purge_networks: "{{ item['purge_networks']|default(omit) }}"
     recreate: "{{ item['recreate']|default(omit) }}"
+    restart_policy: "{{ item['restart_policy']|default(omit) }}"
     state: "{{ item['state']|default(omit) }}"
   with_items: "{{ docker_containers }}"
   loop_control:
@@ -97,6 +100,12 @@
     label: "{{ item['project_name'] }}"
   notify: "{{ item['notify']|default(omit) }}"
   when: docker_composes is defined
+
+- name: Copy  # noqa command-instead-of-shell
+  shell: "docker cp {{ item }}"
+  with_items: "{{ docker_cp }}"
+  when: docker_cp is defined
+  changed_when: false  # TODO
 
 - include: proxy_for_containers.yml
   when: docker_proxy_http is defined and docker_proxy_users is defined
