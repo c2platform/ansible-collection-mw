@@ -1,0 +1,13 @@
+---
+- name: restart docker
+  service:
+    name: docker
+    state: restarted
+    enabled: true
+
+- name: restart docker containers
+  shell:
+    cmd: "docker restart {{ item['name'] }}"
+  with_items: "{{ docker_containers }}"
+  loop_control:
+    label: "{{ item['name'] }}"
