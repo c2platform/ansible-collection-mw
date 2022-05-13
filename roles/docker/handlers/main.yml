@@ -5,7 +5,7 @@
     state: restarted
     enabled: true
 
-- name: restart docker containers
+- name: restart docker containers  # noqa command-instead-of-shell
   shell:
     cmd: "docker restart {{ item['name'] }}"
   with_items: "{{ docker_containers }}"
