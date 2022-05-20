@@ -36,6 +36,8 @@ apache_os_families_settings:
       - mod_ssl
       - openssh
     enablerepo: yes  # enable EPEL for newer apache versions
+apache_settings: "{{ apache_os_families_settings[ansible_os_family|lower] }}"
+
 
 apache_files: []
 apache_directories: []

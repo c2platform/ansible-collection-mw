@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the [c2platform.mw](https://github.com/c2platform/ansible-collection-mw) collection.
 
+## 0.1.12 (2022-05-20)
+
+* Bug fix apache role
+
+
 ## 0.1.11 (2022-05-13)
 
 * Enhanched docker role
