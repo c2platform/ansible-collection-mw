@@ -18,7 +18,7 @@
 - include_tasks: certs.yml
   when: apache_cacerts2_certificates is defined
 
-- name: Files
+- name: Apache files
   include_role:
     name: c2platform.core.files
     tasks_from: main
